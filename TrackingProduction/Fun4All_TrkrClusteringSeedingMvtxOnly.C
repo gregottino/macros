@@ -42,6 +42,8 @@ R__LOAD_LIBRARY(libintt.so)
 R__LOAD_LIBRARY(libtpc.so)
 R__LOAD_LIBRARY(libmicromegas.so)
 R__LOAD_LIBRARY(libTrackingDiagnostics.so)
+R__LOAD_LIBRARY(libtrackingqa.so)
+
 void Fun4All_TrkrClusteringSeedingMvtxOnly(
     const int nEvents = 1000000,
     const std::string filename = "cosmics-00025926-0005.root",
