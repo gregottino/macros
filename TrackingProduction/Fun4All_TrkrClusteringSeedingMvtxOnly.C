@@ -35,7 +35,7 @@
 
 #include <stdio.h>
 
-#include </sphenix/u/gregoryottino/macros/detectors/sPHENIX/G4Setup_sPHENIX.C>
+//#include </sphenix/u/gregoryottino/macros/detectors/sPHENIX/G4Setup_sPHENIX.C>
 
 R__LOAD_LIBRARY(libfun4all.so)
 R__LOAD_LIBRARY(libffamodules.so)
@@ -47,7 +47,7 @@ R__LOAD_LIBRARY(libTrackingDiagnostics.so)
 R__LOAD_LIBRARY(libtrackingqa.so)
 
 void Fun4All_TrkrClusteringSeedingMvtxOnly(
-    const int nEvents = 1000,
+    const int nEvents = 10000000,
     const std::string filename = "DST_MVTX_RAW_cosmics_new_2024p001-00040214-0000.root",
     //const std::string filename = "cosmics-00025926-0005.root",
     const std::string outfilename = "cosmics",
@@ -56,6 +56,8 @@ void Fun4All_TrkrClusteringSeedingMvtxOnly(
 {
   std::string inputRawHitFile = dir + filename;
   auto pos = filename.find("0004");
+  //if (pos == std::string::npos)
+  //  pos = filename.find("0004");
   std::string runnumber_str = filename.substr(pos, pos + 8);
   int runnumber = std::stoi(runnumber_str);
 
@@ -65,19 +67,19 @@ void Fun4All_TrkrClusteringSeedingMvtxOnly(
   rc->set_IntFlag("RUNNUMBER", runnumber);
 
   Enable::CDB = true;
-  rc->set_StringFlag("CDB_GLOBALTAG", "ProdA_2023");
+  rc->set_StringFlag("CDB_GLOBALTAG", "ProdA_2024");
   rc->set_uint64Flag("TIMESTAMP", 6);
   std::string geofile = CDBInterface::instance()->getUrl("Tracking_Geometry");
 
-  //Fun4AllRunNodeInputManager *ingeo = new Fun4AllRunNodeInputManager("GeoIn");
-  //ingeo->AddFile(geofile);
-  //se->registerInputManager(ingeo);
-  Enable::MVTX = true;
-  Enable::INTT = true;
-  Enable::TPC = true;
-  Enable::MICROMEGAS = true;
-  G4Init();
-  G4Setup();
+  Fun4AllRunNodeInputManager *ingeo = new Fun4AllRunNodeInputManager("GeoIn");
+  ingeo->AddFile(geofile);
+  se->registerInputManager(ingeo);
+  //Enable::MVTX = true;
+  //Enable::INTT = true;
+  //Enable::TPC = true;
+  //Enable::MICROMEGAS = true;
+  //G4Init();
+  //G4Setup();
 
   G4TPC::tpc_drift_velocity_reco = (8.0 / 1000) * 107.0 / 105.0;
   G4MAGNET::magfield = "0.01";
