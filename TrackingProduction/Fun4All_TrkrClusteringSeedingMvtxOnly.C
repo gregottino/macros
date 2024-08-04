@@ -47,8 +47,8 @@ R__LOAD_LIBRARY(libTrackingDiagnostics.so)
 R__LOAD_LIBRARY(libtrackingqa.so)
 
 void Fun4All_TrkrClusteringSeedingMvtxOnly(
-    const int nEvents = 10000000,
-    const std::string filename = "DST_MVTX_RAW_cosmics_new_2024p001-00040214-0000.root",
+    const int nEvents = 10,
+    const std::string filename = "DST_MVTX_RAW_cosmics_new_2024p001-00040216-0000.root",
     //const std::string filename = "cosmics-00025926-0005.root",
     const std::string outfilename = "cosmics",
     const std::string dir = "/sphenix/lustre01/sphnxpro/commissioning/slurp/inttcosmics/run_00040200_00040300/")
