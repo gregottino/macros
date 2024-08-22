@@ -49,6 +49,7 @@ void Mvtx_HitUnpacking(const std::string& felix="")
       mvtxunpacker->useRawHitNodeName("MVTXRAWHIT_" + felix);
       mvtxunpacker->useRawEvtHeaderNodeName("MVTXRAWEVTHEADER_" + felix);
     }
+  mvtxunpacker->doOfflineMasking(true);
   se->registerSubsystem(mvtxunpacker);
 }
 void Mvtx_Clustering()

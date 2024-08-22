@@ -9,8 +9,8 @@
 #include <G4_Magnet.C>
 #include <GlobalVariables.C>
 #include <QA.C>
-#include <Trkr_Clustering.C>
-#include <Trkr_Reco_Cosmics.C>
+#include </sphenix/u/gregoryottino/macros/common/Trkr_Clustering.C>
+#include </sphenix/u/gregoryottino/macros/common/Trkr_Reco_Cosmics.C>
 #include <Trkr_RecoInit.C>
 #include <Trkr_TpcReadoutInit.C>
 
@@ -55,9 +55,9 @@ R__LOAD_LIBRARY(libTrackingDiagnostics.so)
 R__LOAD_LIBRARY(libtrackingqa.so)
 void Fun4All_Cosmics(
     const int nEvents = 0,
-    const std::string filename = "DST_STREAMING_EVENT_cosmics_new_2024p001-00045673-0000.root",
+    const std::string filename = "DST_MVTX_RAW_cosmics_new_2024p001-00040227-0000.root",
     const std::string outfilename = "cosmics",
-    const std::string dir = ".")
+    const std::string dir = "/sphenix/lustre01/sphnxpro/commissioning/slurp/inttcosmics/run_00040200_00040300/")
 {
   std::string inputRawHitFile = dir + filename;
 
@@ -73,12 +73,12 @@ void Fun4All_Cosmics(
 	   << std::endl;
 
   auto se = Fun4AllServer::instance();
-  se->Verbosity(2);
+  se->Verbosity(0);
   auto rc = recoConsts::instance();
   rc->set_IntFlag("RUNNUMBER", runnumber);
 
   Enable::CDB = true;
-  rc->set_StringFlag("CDB_GLOBALTAG", "2024p005");
+  rc->set_StringFlag("CDB_GLOBALTAG", "2024p001");
   rc->set_uint64Flag("TIMESTAMP", runnumber);
   std::string geofile = CDBInterface::instance()->getUrl("Tracking_Geometry");
 
@@ -106,6 +106,7 @@ void Fun4All_Cosmics(
   bool ConstField = isConstantField(G4MAGNET::magfield_tracking,fieldstrength);
   if(ConstField && fieldstrength < 0.1)
   {
+    std::cout<<"is zero field"<<std::endl;
     G4MAGNET::magfield = "0.01";
     G4MAGNET::magfield_rescale = 1;
   }
@@ -116,31 +117,31 @@ void Fun4All_Cosmics(
   se->registerInputManager(hitsin);
 
   Mvtx_HitUnpacking();
-  Intt_HitUnpacking();
+  //Intt_HitUnpacking();
 
-  auto tpcunpacker = new TpcCombinedRawDataUnpacker;
-  tpcunpacker->Verbosity(0);
-  tpcunpacker->doBaselineCorr(true);
-  se->registerSubsystem(tpcunpacker);
+  //auto tpcunpacker = new TpcCombinedRawDataUnpacker;
+  //tpcunpacker->Verbosity(0);
+  //tpcunpacker->doBaselineCorr(true);
+  //se->registerSubsystem(tpcunpacker);
 
-  Micromegas_HitUnpacking();
+  //Micromegas_HitUnpacking();
   Mvtx_Clustering();
-  Intt_Clustering();
+  //Intt_Clustering();
 
-  auto tpcclusterizer = new TpcClusterizer;
-  tpcclusterizer->Verbosity(0);
-  tpcclusterizer->set_do_hit_association(G4TPC::DO_HIT_ASSOCIATION);
-  tpcclusterizer->set_rawdata_reco();
-  se->registerSubsystem(tpcclusterizer);
-
-  Micromegas_Clustering();
+  //auto tpcclusterizer = new TpcClusterizer;
+  //tpcclusterizer->Verbosity(0);
+  //tpcclusterizer->set_do_hit_association(G4TPC::DO_HIT_ASSOCIATION);
+  //tpcclusterizer->set_rawdata_reco();
+  //se->registerSubsystem(tpcclusterizer);
+  //
+  //Micromegas_Clustering();
 
   Tracking_Reco_TrackSeed();
 
   TrackSeedTrackMapConverter *converter = new TrackSeedTrackMapConverter();
   // Default set to full SvtxTrackSeeds. Can be set to
   // SiliconTrackSeedContainer or TpcTrackSeedContainer
-  converter->setTrackSeedName("SvtxTrackSeedContainer");
+  converter->setTrackSeedName("SiliconTrackSeedContainer");
   converter->Verbosity(0);
   converter->cosmics();
   converter->setFieldMap(G4MAGNET::magfield_tracking);
@@ -153,7 +154,7 @@ void Fun4All_Cosmics(
   resid->outfileName(residstring);
   resid->alignment(false);
   resid->clusterTree();
-  resid->hitTree();
+  //resid->hitTree();
   resid->convertSeeds(true);
 
 

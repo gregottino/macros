@@ -60,52 +60,55 @@ void Tracking_Reco_TrackSeed()
   auto se = Fun4AllServer::instance();
 
   PHCosmicSeeder *seeder = new PHCosmicSeeder;
-  seeder->Verbosity(verbosity);
+  seeder->Verbosity(0);
+  seeder->xyTolerance(0.3);
+  seeder->trackMapName("SiliconTrackSeedContainer");
+  seeder->trackerId(TrkrDefs::TrkrId::mvtxId);
   se->registerSubsystem(seeder);
 
-  PHCosmicSiliconPropagator *hprop = new PHCosmicSiliconPropagator("HelicalPropagator");
-  hprop->Verbosity(verbosity);
-  double fieldstrength = std::numeric_limits<double>::quiet_NaN();
-  bool ConstField = isConstantField(G4MAGNET::magfield_tracking,fieldstrength);
-  if (ConstField && fieldstrength < 0.1)
-  {
-    hprop->zero_field();
-  }
-  hprop->set_dca_z_cut(2);
-  hprop->set_dca_xy_cut(1.);
-  se->registerSubsystem(hprop);
+//  PHCosmicSiliconPropagator *hprop = new PHCosmicSiliconPropagator("HelicalPropagator");
+//  hprop->Verbosity(verbosity);
+//  double fieldstrength = std::numeric_limits<double>::quiet_NaN();
+//  bool ConstField = isConstantField(G4MAGNET::magfield_tracking,fieldstrength);
+//  if (ConstField && fieldstrength < 0.1)
+//  {
+//    hprop->zero_field();
+//  }
+//  hprop->set_dca_z_cut(2);
+//  hprop->set_dca_xy_cut(1.);
+//  se->registerSubsystem(hprop);
 
   // Associate Micromegas clusters with the tracks
 
-  auto merger = new PHCosmicTrackMerger("PHCosmicMerger");
-  merger->Verbosity(verbosity);
-  if (ConstField && fieldstrength < 0.1)
-  {
-    merger->zero_field();
-  }
-  se->registerSubsystem(merger);
-
-  PHCosmicSiliconPropagator *hprop2 = new PHCosmicSiliconPropagator("HelicalPropagator2");
-  hprop2->Verbosity(verbosity);
-  hprop2->resetSvtxSeedContainer();
-  if (ConstField && fieldstrength < 0.1)
-  {
-    hprop2->zero_field();
-  }
-  hprop2->set_dca_z_cut(2.);
-  hprop2->set_dca_xy_cut(0.5);
-
-  se->registerSubsystem(hprop2);
-
-  auto merger2 = new PHCosmicTrackMerger("PHCosmicMerger2");
-  merger2->Verbosity(0);
-  merger2->dca_xycut(0.5);
-  merger2->dca_rzcut(1);
-  if (ConstField && fieldstrength < 0.1)
-  {
-    merger2->zero_field();
-  }
-  se->registerSubsystem(merger2);
+//  auto merger = new PHCosmicTrackMerger("PHCosmicMerger");
+//  merger->Verbosity(verbosity);
+//  if (ConstField && fieldstrength < 0.1)
+//  {
+//    merger->zero_field();
+//  }
+//  se->registerSubsystem(merger);
+//
+//  PHCosmicSiliconPropagator *hprop2 = new PHCosmicSiliconPropagator("HelicalPropagator2");
+//  hprop2->Verbosity(verbosity);
+//  hprop2->resetSvtxSeedContainer();
+//  if (ConstField && fieldstrength < 0.1)
+//  {
+//    hprop2->zero_field();
+//  }
+//  hprop2->set_dca_z_cut(2.);
+//  hprop2->set_dca_xy_cut(0.5);
+//
+//  se->registerSubsystem(hprop2);
+//
+//  auto merger2 = new PHCosmicTrackMerger("PHCosmicMerger2");
+//  merger2->Verbosity(0);
+//  merger2->dca_xycut(0.5);
+//  merger2->dca_rzcut(1);
+//  if (ConstField && fieldstrength < 0.1)
+//  {
+//    merger2->zero_field();
+//  }
+//  se->registerSubsystem(merger2);
 }
 
 void vertexing()
