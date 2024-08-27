@@ -154,8 +154,11 @@ void Fun4All_Cosmics(
   resid->outfileName(residstring);
   resid->alignment(false);
   resid->clusterTree();
+  resid->noEventTree();
   //resid->hitTree();
+  resid->setClusterMinSize(3);
   resid->convertSeeds(true);
+  resid->Verbosity(0);
 
 
   if(ConstField && fieldstrength < 0.1)

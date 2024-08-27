@@ -44,8 +44,8 @@ void convert_seeds()
   TrackSeedTrackMapConverter *converter = new TrackSeedTrackMapConverter();
   // Default set to full SvtxTrackSeeds. Can be set to
   // SiliconTrackSeedContainer or TpcTrackSeedContainer
-  converter->setTrackSeedName("SvtxTrackSeedContainer");
-  converter->Verbosity(verbosity);
+  converter->setTrackSeedName("SiliconTrackSeedContainer");
+  converter->Verbosity(5);
   converter->cosmics();
   converter->setFieldMap(G4MAGNET::magfield_tracking);
   se->registerSubsystem(converter);
@@ -60,7 +60,7 @@ void Tracking_Reco_TrackSeed()
   auto se = Fun4AllServer::instance();
 
   PHCosmicSeeder *seeder = new PHCosmicSeeder;
-  seeder->Verbosity(0);
+  seeder->Verbosity(verbosity);
   seeder->xyTolerance(0.3);
   seeder->trackMapName("SiliconTrackSeedContainer");
   seeder->trackerId(TrkrDefs::TrkrId::mvtxId);
